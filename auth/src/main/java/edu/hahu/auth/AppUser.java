@@ -1,11 +1,9 @@
 package edu.hahu.auth;
 
-import java.util.Objects;
-
+// A (temporary) class represent the user saved in the database.
 public class AppUser {
     private Long id;
-    private String username;
-    private String password;
+    private String username, password;
     private String role;
 
     public AppUser(Long id, String username, String password, String role) {
@@ -38,25 +36,11 @@ public class AppUser {
     public void setPassword(String password) {
         this.password = password;
     }
-
     public String getRole() {
         return role;
     }
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AppUser user = (AppUser) o;
-        return id.equals(user.id) && username.equals(user.username) && password.equals(user.password) && role.equals(user.role);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, password, role);
     }
 }

@@ -1,4 +1,4 @@
-package edu.hahu.auth;
+package edu.hahu.gateway.security;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -19,7 +19,7 @@ public class JwtConfig {
     @Value("${security.jwt.expiration:#{24*60*60}}")
     private int expiration;
 
-    @Value("${security.jwt.secret:secretsdfgdsfsdfgdfgsdfgdsfmiuisagoodpalcetolearnffasidjfsdkfjasdf}")
+    @Value("${security.jwt.secret:JwtSecretKey}")
     private String secret;
 
     // In case you want to use plain getters instead of lombok.
