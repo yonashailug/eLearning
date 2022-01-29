@@ -26,7 +26,7 @@ public class UserService implements IUser {
     @Override
     public Optional<UserDto> findById(Long id) {
         Optional<User> user = userDao.findById(id);
-        if (!user.isPresent()) return Optional.ofNullable(null);
+        if (!user.isPresent()) return Optional.empty();
         return Optional.of((UserDto) mapper.mapObject(user.get(), UserDto.class));
     }
 
@@ -39,14 +39,14 @@ public class UserService implements IUser {
     @Override
     public Optional<UserDto> delete(Long id) {
         Optional<User> user = userDao.findById(id);
-        if (!user.isPresent()) return Optional.ofNullable(null);
+        if (!user.isPresent()) return Optional.empty();
         userDao.deleteById(id);
         return Optional.of((UserDto) mapper.mapObject(user.get(), UserDto.class));
     }
 
     @Override
     public Optional<UserDto> update(User user) {
-        if (!userDao.existsById(user.getId())) return Optional.ofNullable(null);
+        if (!userDao.existsById(user.getId())) return Optional.empty();
         User saved = userDao.save(user);
         return Optional.of((UserDto) mapper.mapObject(saved, UserDto.class));
     }
