@@ -1,28 +1,29 @@
 package edu.el.content.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+@Setter
+@Getter
+@NoArgsConstructor
 public class Content {
-
+    @Id
+    @GeneratedValue
     private Long id;
-    private String title;
+    private String name;
+    private String content;
+    private String chapter;
+    private String contentType;
+    private Status status;
 
-    public Content(Long id, String title) {
+    public Content(Long id, String name) {
         this.id = id;
-        this.title = title;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+        this.name = name;
     }
 }
