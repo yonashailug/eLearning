@@ -15,11 +15,12 @@ public class Enrollment {
     @NotNull
     private Long courseId;
 
-
-
     @NotNull
     @Positive
     private Long traineeId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Progress progress;
 
     public Enrollment() {}
 

@@ -5,6 +5,7 @@ import edu.hahu.enrollement.service.IEnrollmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,12 +26,12 @@ public class EnrollmentController {
     }
 
     @PostMapping
-    public Enrollment save(@RequestBody Enrollment enrollment){
+    public Enrollment save(@RequestBody @Valid Enrollment enrollment){
         return enrollmentService.save(enrollment);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody Enrollment enrollment){
+    public void update(@PathVariable Long id, @RequestBody @Valid Enrollment enrollment){
         enrollmentService.update(enrollment);
     }
 
