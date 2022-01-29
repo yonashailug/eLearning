@@ -6,10 +6,14 @@ import edu.el.content.model.Content;
 import edu.el.content.model.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
+@Transactional
 public class CourseService implements ICourse {
 
     @Autowired
@@ -46,8 +50,34 @@ public class CourseService implements ICourse {
     }
 
     @Override
-    public Content findContentsForCourse(Long id, Long contentId) {
-        return courseDao.findById(id).get().getContents().stream().filter(content -> content.getId() == contentId).findFirst().get();
+    public Optional<Content> findContentsForCourse(Long id, Long contentId) {
+        Optional<Course> course = courseDao.findById(id);
+        if (course.isEmpty()) return Optional.empty();
+
+        return course.get().getContents().stream().filter(content -> content.getId() == contentId).findFirst();
+    }
+
+    @Override
+    public Optional<Content> saveContent(Long id, Content content) {
+        Optional<Course> course = courseDao.findById(id);
+        if (course.isEmpty()) return Optional.empty();
+        course.get().addContent(content);
+        return Optional.of(content);
+    }
+
+    @Override
+    public Optional<Content> deleteContentById(Long id, Long contentId) {
+        Optional<Course> course = courseDao.findById(id);
+        if (course.isEmpty()) return Optional.empty();
+
+        Optional<Content> contentToDelete = course.get().getContents().stream().filter(content -> Objects.equals(content.getId(), contentId)).findFirst();
+        course.get().getContents().remove(contentToDelete.get());
+        return contentToDelete;
+    }
+
+    @Override
+    public List<Course> findCourseByOwner(Long id) {
+        return courseDao.findCourseByOwner(id);
     }
 
 }
