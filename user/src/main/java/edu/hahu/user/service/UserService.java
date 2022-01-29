@@ -2,29 +2,24 @@ package edu.hahu.user.service;
 
 import edu.hahu.user.dao.UserDao;
 import edu.hahu.user.dto.UserDto;
-import edu.hahu.user.exception.NotFoundException;
 import edu.hahu.user.model.User;
 import edu.hahu.user.util.GenericMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserService implements IUser {
-    @Autowired
-    private GenericMapper mapper;
-    @Resource
-    private UserDao userDao;
+    private final GenericMapper mapper;
+    private final UserDao userDao;
 
     @Override
     public List<UserDto> getAll() {
-        System.out.println(userDao.findAll());
         return mapper.mapList(userDao.findAll(), UserDto.class);
     }
 
