@@ -12,10 +12,13 @@ public class Course {
     private Long id;
 
     private String name;
+    @Lob
     private String summary;
+    @Lob
     private String description;
     private String syllable;
     private String thumbnail;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @OneToMany(cascade = CascadeType.ALL)

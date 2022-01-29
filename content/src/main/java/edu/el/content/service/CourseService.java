@@ -25,8 +25,7 @@ public class CourseService implements ICourse {
 
     @Override
     public Course get(Long id) {
-        return courseDao.getById(id);
-
+        return courseDao.findById(id).get();
     }
 
     @Override

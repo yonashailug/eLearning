@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping()
+@RequestMapping
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -37,8 +37,8 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<UserDto> saved = userService.save(user);
-        return ResponseEntity.of(saved);
+        Optional<UserDto> savedUser = userService.save(user);
+        return ResponseEntity.of(savedUser);
     }
 
     @PutMapping("/{id}")
@@ -47,16 +47,16 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<UserDto> updated = userService.update(user);
-        return ResponseEntity.of(updated);
+        Optional<UserDto> updatedUser = userService.update(user);
+        return ResponseEntity.of(updatedUser);
     }
 
     @DeleteMapping("/{id}")
     private ResponseEntity<UserDto> delete(@PathVariable Long id) {
-        Optional<UserDto> deleted = userService.delete(id);
-        if (deleted.isEmpty()) return ResponseEntity.notFound().build();
+        Optional<UserDto> deletedUser = userService.delete(id);
+        if (deletedUser.isEmpty()) return ResponseEntity.notFound().build();
 
-        return ResponseEntity.of(deleted);
+        return ResponseEntity.of(deletedUser);
     }
 
 }
