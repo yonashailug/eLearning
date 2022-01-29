@@ -1,6 +1,7 @@
 package edu.hahu.user.controller;
 
 import edu.hahu.user.dto.UserDto;
+import edu.hahu.user.model.Role;
 import edu.hahu.user.model.User;
 import edu.hahu.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -59,4 +60,24 @@ public class UserController {
         return ResponseEntity.of(deletedUser);
     }
 
+    @GetMapping("/contributors")
+    private List<UserDto> getAllContributors() {
+        return userService.findUsersByRole(Role.CONTRIBUTOR);
+    }
+
+    @GetMapping("/students")
+    private List<UserDto> getStudents() {
+        return userService.findUsersByRole(Role.USER);
+    }
+
+    @GetMapping("/admins")
+    private List<UserDto> getAdmins() {
+        return userService.findUsersByRole(Role.ADMIN);
+    }
+
+    //TODO: - ADMIN and Contributor only
+    @GetMapping("/{id}/courses")
+    private List<Object> getCourses(@PathVariable Long id) {
+        return userService.getCoursesByUser(id);
+    }
 }

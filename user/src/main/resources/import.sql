@@ -1,1 +1,1 @@
-INSERT into `users` (first_name, last_name, email, username, password, role, avatar, email_verified) VALUES ('Yonas', 'Gebremedhin', 'xyz@gmail.com', 'yonashailug','$2a$10$2BlJ/vCO2Age4iolJF/PPOZVMjBD74UaOLGKhZTsqjyvYUrLMwqqW', 'USER', '', true);
+INSERT into `users` (id, first_name, last_name, email, username, password, role, avatar, email_verified) VALUES (1, 'Yonas', 'Gebremedhin', 'xyz@gmail.com', 'yonashailug','$2a$10$2BlJ/vCO2Age4iolJF/PPOZVMjBD74UaOLGKhZTsqjyvYUrLMwqqW', 'USER', '', true);

@@ -1,29 +1,33 @@
 package edu.el.content.model;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Setter
 @Getter
-@NoArgsConstructor
 public class Content {
     @Id
     @GeneratedValue
     private Long id;
+
+    @NotBlank
     private String name;
+
+    @Lob
+    @NotBlank
     private String content;
+
+    @NotBlank
     private String chapter;
-    private String contentType;
+
+    @Enumerated(EnumType.STRING)
+    private ContentType contentType;
+
+    @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Content(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }

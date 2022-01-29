@@ -1,6 +1,7 @@
 package edu.el.content.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class Course {
     private String thumbnail;
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @NotBlank
+    private Long owner;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Content> contents = new ArrayList<>();
