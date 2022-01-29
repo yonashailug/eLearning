@@ -104,4 +104,7 @@ public class Course {
         contents.remove(content);
     }
 
+    public List<Content> getContents() {
+        return contents;
+    }
 }

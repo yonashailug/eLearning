@@ -1,5 +1,6 @@
 package edu.el.content.controller;
 
+import edu.el.content.model.Content;
 import edu.el.content.model.Course;
 import edu.el.content.service.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,15 @@ public class CourseController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         courseService.delete(id);
+    }
+
+    @GetMapping("/{id}/contents")
+    public List<Content> findContentsForCourse(@PathVariable Long id) {
+        return courseService.findContentsForCourse(id);
+    }
+
+    @GetMapping("/{id}/contents/{contentId}")
+    public Content findContentCourseById(@PathVariable Long id, @PathVariable Long contentId) {
+        return courseService.findContentsForCourse(id, contentId);
     }
 }
