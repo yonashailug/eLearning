@@ -15,4 +15,5 @@ public interface IUser {
     Optional<UserDto> update(User user);
     List<UserDto> findUsersByRole(Role role);
     List<Object> getCoursesByUser(Long id);
+    Optional<User> findUserByUsername(String username);
 }

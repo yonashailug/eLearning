@@ -11,6 +11,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -26,6 +27,7 @@ public class UserService implements IUser {
     private final UserDao userDao;
     private final RestTemplate restTemplate;
     private final Environment env;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDto> getAll() {
@@ -35,12 +37,13 @@ public class UserService implements IUser {
     @Override
     public Optional<UserDto> findById(Long id) {
         Optional<User> user = userDao.findById(id);
-        if (!user.isPresent()) return Optional.empty();
+        if (user.isEmpty()) return Optional.empty();
         return Optional.of((UserDto) mapper.mapObject(user.get(), UserDto.class));
     }
 
     @Override
     public Optional<UserDto> save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User saved = userDao.save(user);
         return Optional.of((UserDto) mapper.mapObject(saved, UserDto.class));
     }
@@ -48,7 +51,7 @@ public class UserService implements IUser {
     @Override
     public Optional<UserDto> delete(Long id) {
         Optional<User> user = userDao.findById(id);
-        if (!user.isPresent()) return Optional.empty();
+        if (user.isEmpty()) return Optional.empty();
         userDao.deleteById(id);
         return Optional.of((UserDto) mapper.mapObject(user.get(), UserDto.class));
     }
@@ -74,6 +77,11 @@ public class UserService implements IUser {
                         null,
                         new ParameterizedTypeReference<>() {});
         return response.getBody();
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return userDao.findUserByUsername(username);
     }
 
 }

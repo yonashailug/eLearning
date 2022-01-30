@@ -78,7 +78,6 @@ public class CourseController {
 
     @GetMapping("/users/{id}")
     private List<Course> findCourseByOwner(@PathVariable Long id) {
-        System.out.println("user id: " + id);
         return courseService.findCourseByOwner(id);
     }
 }

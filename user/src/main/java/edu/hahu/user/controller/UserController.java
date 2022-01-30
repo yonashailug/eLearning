@@ -14,13 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
     @GetMapping
     private List<UserDto> getAll() {
+        System.out.println("user service getAll");
         return userService.getAll();
     }
 
@@ -65,11 +66,13 @@ public class UserController {
         return userService.findUsersByRole(Role.CONTRIBUTOR);
     }
 
+    //@Role
     @GetMapping("/students")
     private List<UserDto> getStudents() {
         return userService.findUsersByRole(Role.USER);
     }
 
+    //@Role
     @GetMapping("/admins")
     private List<UserDto> getAdmins() {
         return userService.findUsersByRole(Role.ADMIN);
@@ -79,5 +82,13 @@ public class UserController {
     @GetMapping("/{id}/courses")
     private List<Object> getCourses(@PathVariable Long id) {
         return userService.getCoursesByUser(id);
+    }
+
+    @PostMapping("/username")
+    private ResponseEntity<User> findUserByUsername(@RequestBody String username) {
+        Optional<User> user = userService.findUserByUsername(username);
+        if (user.isEmpty()) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.of(user);
     }
 }
