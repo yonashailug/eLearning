@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +28,9 @@ public class CourseController {
     }
 
     @PostMapping
-    public void save(@RequestBody Course course) {
+    public void save(@RequestBody Course course , @RequestHeader("userId") Integer auth) {
+        System.out.println("!~~~~~~~~~~~ Request Header Auth : " + auth +"~~~~~~~");
+
         courseService.add(course);
     }
 
