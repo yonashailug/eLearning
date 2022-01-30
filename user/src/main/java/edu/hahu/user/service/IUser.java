@@ -1,6 +1,7 @@
 package edu.hahu.user.service;
 
 import edu.hahu.user.dto.UserDto;
+import edu.hahu.user.dto.UserLoginDto;
 import edu.hahu.user.model.Role;
 import edu.hahu.user.model.User;
 
@@ -15,5 +16,5 @@ public interface IUser {
     Optional<UserDto> update(User user);
     List<UserDto> findUsersByRole(Role role);
     List<Object> getCoursesByUser(Long id);
-    Optional<User> findUserByUsername(String username);
+    Optional<UserLoginDto> findUserByUsername(String username);
 }

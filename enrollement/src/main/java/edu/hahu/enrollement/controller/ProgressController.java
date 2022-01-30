@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/progresses")
+@RequestMapping("/progresses")
 public class ProgressController {
 
     private final IProgressService progressService;
