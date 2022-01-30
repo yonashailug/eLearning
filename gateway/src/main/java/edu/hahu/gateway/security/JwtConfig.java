@@ -19,7 +19,7 @@ public class JwtConfig {
     @Value("${security.jwt.expiration:#{24*60*60}}")
     private int expiration;
 
-    @Value("${security.jwt.secret:JwtSecretKey}")
+    @Value("${security.jwt.secret:secretsdfgdsfsdfgdfgsdfgdsfmiuisagoodpalcetolearnffasidjfsdkfjasdf}")
     private String secret;
 
     // In case you want to use plain getters instead of lombok.
