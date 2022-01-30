@@ -2,6 +2,7 @@ package edu.el.content.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +20,11 @@ public class Course {
     private String description;
     private String syllable;
     private String thumbnail;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @NotBlank
+    @NotNull
     private Long owner;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -32,8 +34,15 @@ public class Course {
     @CollectionTable(name = "contributors")
     private List<Long> contributors = new ArrayList<>();
 
-
     public Course() {
+    }
+
+    public Long getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Long owner) {
+        this.owner = owner;
     }
 
     public String getName() {
