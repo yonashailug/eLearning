@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -44,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig))
                 .authorizeRequests()
                 // allow all POST requests
-                .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
+                //.antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
+                .antMatchers("/api/auth/**").permitAll()
                 // any other requests must be authenticated
                 .anyRequest().authenticated();
     }

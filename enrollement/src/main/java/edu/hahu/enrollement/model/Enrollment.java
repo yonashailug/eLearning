@@ -19,7 +19,7 @@ public class Enrollment {
     @Positive
     private Long traineeId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL , mappedBy = "enrollment")
     private Progress progress;
 
     public Enrollment() {}

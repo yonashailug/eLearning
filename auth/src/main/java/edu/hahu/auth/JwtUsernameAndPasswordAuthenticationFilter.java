@@ -3,12 +3,14 @@ package edu.hahu.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -40,7 +42,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-            throws AuthenticationException {
+            throws AuthenticationException, UsernameNotFoundException{
 
         try {
             // 1. Get credentials from request
@@ -53,10 +55,14 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
             // 3. Authentication manager authenticate the user, and use UserDetialsServiceImpl::loadUserByUsername() method to load the user.
             return authManager.authenticate(authToken);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e ) {
+            throw new RuntimeException(e.getMessage());
+        }catch (UsernameNotFoundException exception){
+            throw new UsernameNotFoundException(" User name not found error");
         }
     }
+
+
 
     // Upon successful authentication, generate a token.
     // The 'auth' passed to successfulAuthentication() is the current authenticated user.

@@ -15,6 +15,9 @@ public class Progress {
     @Column(nullable = false)
     private boolean finished;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Enrollment enrollment;
+
     private Long lastContent;
 
     public Progress() {

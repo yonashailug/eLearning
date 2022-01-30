@@ -2,11 +2,11 @@ package edu.hahu.user.service;
 
 import edu.hahu.user.dao.UserDao;
 import edu.hahu.user.dto.UserDto;
+import edu.hahu.user.dto.UserLoginDto;
 import edu.hahu.user.model.Role;
 import edu.hahu.user.model.User;
 import edu.hahu.user.util.GenericMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -80,8 +80,10 @@ public class UserService implements IUser {
     }
 
     @Override
-    public Optional<User> findUserByUsername(String username) {
-        return userDao.findUserByUsername(username);
+    public Optional<UserLoginDto> findUserByUsername(String username) {
+        Optional<User> user = userDao.findUserByUsername(username);
+        if (user.isEmpty()) return Optional.empty();
+        return Optional.of((UserLoginDto) mapper.mapObject(user.get(), UserLoginDto.class));
     }
 
 }

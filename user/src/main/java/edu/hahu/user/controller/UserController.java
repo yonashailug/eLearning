@@ -1,6 +1,7 @@
 package edu.hahu.user.controller;
 
 import edu.hahu.user.dto.UserDto;
+import edu.hahu.user.dto.UserLoginDto;
 import edu.hahu.user.model.Role;
 import edu.hahu.user.model.User;
 import edu.hahu.user.service.UserService;
@@ -85,10 +86,12 @@ public class UserController {
     }
 
     @PostMapping("/username")
-    private ResponseEntity<User> findUserByUsername(@RequestBody String username) {
-        Optional<User> user = userService.findUserByUsername(username);
-        if (user.isEmpty()) return ResponseEntity.notFound().build();
-
+    private ResponseEntity<UserLoginDto> findUserByUsername(@RequestParam String username) {
+        Optional<UserLoginDto> user = userService.findUserByUsername(username);
+        if (user.isEmpty()) {
+            System.out.println("No User found with you user name = " +username );
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.of(user);
     }
 }

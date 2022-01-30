@@ -1,4 +1,4 @@
-package edu.hahu.auth;
+package edu.hahu.auth.dto;
 
 // A (temporary) class represent the user saved in the database.
 public class AppUser {
