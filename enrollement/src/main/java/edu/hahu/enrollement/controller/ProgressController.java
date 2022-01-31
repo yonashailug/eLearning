@@ -2,7 +2,6 @@ package edu.hahu.enrollement.controller;
 
 import edu.hahu.enrollement.model.Progress;
 import edu.hahu.enrollement.service.IProgressService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,7 +28,7 @@ public class ProgressController {
     }
 
     @PostMapping
-    public Progress save(@RequestBody @Valid Progress progress){
+    public Progress save(@RequestBody @Valid Progress progress) {
        return progressService.save(progress);
     }
 
@@ -42,6 +41,4 @@ public class ProgressController {
     public void deleteById(@PathVariable Long id){
         progressService.deleteById(id);
     }
-
-
 }

@@ -5,7 +5,6 @@ import edu.hahu.enrollement.security.UserMoreDetails;
 import edu.hahu.enrollement.service.IEnrollmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
