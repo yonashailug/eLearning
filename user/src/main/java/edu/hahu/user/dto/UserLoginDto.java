@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Getter
 @Data
 public class UserLoginDto implements Serializable {
+    private Long id;
     @NotBlank
     private  String firstName;
     @NotBlank

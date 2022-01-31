@@ -1,31 +1,23 @@
-package edu.hahu.auth;
+package edu.hahu.enrollement.security;
 
-import edu.hahu.auth.dto.UserDto;
-import edu.hahu.auth.security.UserMoreDetails;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final BCryptPasswordEncoder encoder;
     private final RestTemplate restTemplate;
 
     @Override
@@ -41,8 +33,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
                 .queryParam("username", username);
 
-        ResponseEntity<UserDto> response =  restTemplate.exchange(builder.toUriString(), HttpMethod.POST,null, UserDto.class);
-        UserDto user = response.getBody();
+        ResponseEntity<User> response =  restTemplate.exchange(builder.toUriString(), HttpMethod.POST,null, User.class);
+        User user = response.getBody();
         if(user == null){
             throw new UsernameNotFoundException("Username: " + username + " not found");
         }
@@ -58,23 +50,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 authorities
         );
     }
-//    public UserDetails getDummyUsername(String username){
-//
-//        final List<edu.hahu.auth.dto.User> users = Arrays.asList(
-//                new edu.hahu.auth.dto.User(1L, "user", "u@gmail.com", encoder.encode("user"), "USER"),
-//                new edu.hahu.auth.dto.User(2L, "admin", "a@gmail.com", encoder.encode("admin"), "ADMIN")
-//        );
-//
-//        for(edu.hahu.auth.dto.User appUser: users) {
-//            if(appUser.getUsername().equals(username)) {
-//
-//                List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-//                        .commaSeparatedStringToAuthorityList("ROLE_" + appUser.getRole());
-//
-//                return new User(appUser.getUsername(), appUser.getPassword(), grantedAuthorities);
-//            }
-//        }
-//
-//        throw new UsernameNotFoundException("Username: " + username + " not found");
-//    }
 }

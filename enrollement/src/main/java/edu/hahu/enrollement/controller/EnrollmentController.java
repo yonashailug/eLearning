@@ -1,8 +1,11 @@
 package edu.hahu.enrollement.controller;
 
 import edu.hahu.enrollement.model.Enrollment;
+import edu.hahu.enrollement.security.UserMoreDetails;
 import edu.hahu.enrollement.service.IEnrollmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,4 +43,10 @@ public class EnrollmentController {
         enrollmentService.deleteById(id);
     }
 
+    @GetMapping("{id}/courses")
+    public List<Object> getCourses(@PathVariable Long id) {
+        UserMoreDetails user = (UserMoreDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("user id from principal: " + user.getId());
+        return enrollmentService.getCoursesByUser(id);
+    }
 }

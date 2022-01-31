@@ -18,4 +18,5 @@ public class UserDto {
     private Role role;
     private String avatar;
     private boolean emailVerified;
+    private boolean isEnabled;
 }

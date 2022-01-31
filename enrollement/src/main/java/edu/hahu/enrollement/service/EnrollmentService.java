@@ -2,16 +2,24 @@ package edu.hahu.enrollement.service;
 
 import edu.hahu.enrollement.dao.EnrollmentDao;
 import edu.hahu.enrollement.model.Enrollment;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EnrollmentService implements  IEnrollmentService {
 
-    @Autowired
-    private EnrollmentDao enrollmentDao;
+    private final Environment env;
+    private final EnrollmentDao enrollmentDao;
+    private final RestTemplate restTemplate;
 
     @Override
     public List<Enrollment> findAll() {
@@ -20,7 +28,7 @@ public class EnrollmentService implements  IEnrollmentService {
 
     @Override
     public Enrollment findById(Long id) {
-        return enrollmentDao.getById(id);
+        return enrollmentDao.findById(id).get();
     }
 
     @Override
@@ -36,5 +44,16 @@ public class EnrollmentService implements  IEnrollmentService {
     @Override
     public void deleteById(Long id) {
         enrollmentDao.deleteById(id);
+    }
+
+    @Override
+    public List<Object> getCoursesByUser(Long id) {
+        String path = env.getProperty("course.service.location") + "/users/" + id;
+        ResponseEntity<List<Object>> response = restTemplate
+                .exchange(path,
+                        HttpMethod.GET,
+                        null,
+                        new ParameterizedTypeReference<>() {});
+        return response.getBody();
     }
 }

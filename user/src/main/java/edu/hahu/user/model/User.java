@@ -36,6 +36,7 @@ public class User {
 
     private String avatar;
     private boolean emailVerified = false;
+    private boolean isEnabled = true;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;

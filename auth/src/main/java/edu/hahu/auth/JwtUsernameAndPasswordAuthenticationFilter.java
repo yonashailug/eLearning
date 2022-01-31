@@ -1,9 +1,9 @@
 package edu.hahu.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.hahu.auth.security.UserMoreDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
@@ -26,9 +27,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
     private final AuthenticationManager authManager;
-
     private final JwtConfig jwtConfig;
 
     public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authManager, JwtConfig jwtConfig) {
@@ -46,12 +45,13 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
         try {
             // 1. Get credentials from request
-            loginDTO creds = new ObjectMapper().readValue(request.getInputStream(), loginDTO.class);
+            LoginDTO creds = new ObjectMapper().readValue(request.getInputStream(), LoginDTO.class);
 
             // 2. Create auth object (contains credentials) which will be used by auth manager
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     creds.getUsername(), creds.getPassword(), Collections.emptyList());
 
+            //authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             // 3. Authentication manager authenticate the user, and use UserDetialsServiceImpl::loadUserByUsername() method to load the user.
             return authManager.authenticate(authToken);
 
@@ -70,7 +70,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
 
-        System.out.println(auth.getPrincipal());
         long now = System.currentTimeMillis();
         String token = Jwts.builder()
                 .setSubject(auth.getName())

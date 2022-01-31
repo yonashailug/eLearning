@@ -13,6 +13,7 @@ public class Enrollment {
     private Long id;
 
     @NotNull
+    @Positive
     private Long courseId;
 
     @NotNull

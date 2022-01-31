@@ -22,7 +22,6 @@ public class UserController {
 
     @GetMapping
     private List<UserDto> getAll() {
-        System.out.println("user service getAll");
         return userService.getAll();
     }
 
@@ -89,7 +88,6 @@ public class UserController {
     private ResponseEntity<UserLoginDto> findUserByUsername(@RequestParam String username) {
         Optional<UserLoginDto> user = userService.findUserByUsername(username);
         if (user.isEmpty()) {
-            System.out.println("No User found with you user name = " +username );
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.of(user);
