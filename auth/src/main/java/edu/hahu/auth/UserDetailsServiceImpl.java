@@ -38,7 +38,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         String url = "http://user-service/username";
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromUriString(url)
                 .queryParam("username", username);
 
         ResponseEntity<UserDto> response =  restTemplate.exchange(builder.toUriString(), HttpMethod.POST,null, UserDto.class);

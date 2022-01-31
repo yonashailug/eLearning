@@ -1,6 +1,6 @@
-package edu.hahu.auth;
+package edu.hahu.auth.dto;
 
-public class LoginDTO {
+public class LoginDto {
     private String username, password;
     public String getUsername() {
         return username;

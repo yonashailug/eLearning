@@ -1,7 +1,7 @@
 package edu.hahu.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.hahu.auth.security.UserMoreDetails;
+import edu.hahu.auth.dto.LoginDto;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +12,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
@@ -45,7 +44,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
         try {
             // 1. Get credentials from request
-            LoginDTO creds = new ObjectMapper().readValue(request.getInputStream(), LoginDTO.class);
+            LoginDto creds = new ObjectMapper().readValue(request.getInputStream(), LoginDto.class);
 
             // 2. Create auth object (contains credentials) which will be used by auth manager
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
