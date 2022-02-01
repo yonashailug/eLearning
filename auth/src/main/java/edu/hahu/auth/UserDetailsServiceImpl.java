@@ -30,11 +30,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-         return fromDTO(username);
+         return fromDAO(username);
        // return getDummyUsername(username);
     }
 
-    public UserDetails fromDTO(String username){
+    public UserDetails fromDAO(String username){
 
         String url = "http://user-service/username";
 
@@ -50,14 +50,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority( "ROLE_" + user.getRole()));
-        return new UserMoreDetails(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.isEnabled(),
-                user.getPassword(),
-                authorities
-        );
+        return new UserMoreDetails(user.getId(), user.getUsername(), user.getEmail(), user.isEnabled(), user.getPassword(), authorities);
     }
 //    public UserDetails getDummyUsername(String username){
 //
