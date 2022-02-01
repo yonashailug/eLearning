@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class EnrollmentService implements  IEnrollmentService {
+public class EnrollmentService implements IEnrollmentService {
 
     private final Environment env;
     private final EnrollmentDao enrollmentDao;
@@ -36,7 +36,7 @@ public class EnrollmentService implements  IEnrollmentService {
     @Override
     public Optional<Enrollment> save(Enrollment enrollment) {
 
-        if(!checkCourseExists(enrollment.getCourseId())){
+        if (!checkCourseExists(enrollment.getCourseId())) {
             return Optional.empty();
         }
 
@@ -61,14 +61,16 @@ public class EnrollmentService implements  IEnrollmentService {
                 .exchange(path,
                         HttpMethod.GET,
                         null,
-                        new ParameterizedTypeReference<>() {});
+                        new ParameterizedTypeReference<>() {
+                        });
         return response.getBody();
     }
 
-    public Boolean checkCourseExists(Long id){
+    public Boolean checkCourseExists(Long id) {
         String path = env.getProperty("course.service.location") + "/" + id;
         ResponseEntity<Object> response = restTemplate.exchange(path, HttpMethod.GET,
-                null, new ParameterizedTypeReference<Object>() {});
+                null, new ParameterizedTypeReference<Object>() {
+                });
         return response.getBody() != null;
 
     }

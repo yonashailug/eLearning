@@ -26,5 +26,4 @@ public class Progress {
     private Long lastContent;
 
 
-
 }

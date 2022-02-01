@@ -15,13 +15,16 @@ import java.io.Serializable;
 public class UserLoginDto implements Serializable {
     private Long id;
     @NotBlank
-    private  String firstName;
+    private String firstName;
+
     @NotBlank
-    private  String lastName;
+    private String lastName;
+
     @Email
-    private  String email;
+    private String email;
+
     @NotBlank
-    private  String username;
-    private  String password;
-    private  Role role;
+    private String username;
+    private String password;
+    private Role role;
 }

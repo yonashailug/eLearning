@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NotFoundDTO {
+public class NotFoundDto {
     private String name;
     private String message;
 }

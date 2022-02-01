@@ -29,75 +29,74 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     private final AuthenticationManager authManager;
     private final JwtConfig jwtConfig;
 
-    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authManager, JwtConfig jwtConfig) {
+    public JwtUsernameAndPasswordAuthenticationFilter(
+            AuthenticationManager authManager,
+            JwtConfig jwtConfig) {
         this.authManager = authManager;
         this.jwtConfig = jwtConfig;
 
-        // By default, UsernamePasswordAuthenticationFilter listens to "/login" path.
-        // In our case, we use "/auth". So, we need to override the defaults.
-        this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(jwtConfig.getUri(), "POST"));
+        this.setRequiresAuthenticationRequestMatcher(
+                new AntPathRequestMatcher(jwtConfig.getUri(),
+                        "POST"));
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-            throws AuthenticationException, UsernameNotFoundException{
+    public Authentication attemptAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response)
+            throws AuthenticationException, UsernameNotFoundException {
 
         try {
-            // 1. Get credentials from request
-            LoginDto creds = new ObjectMapper().readValue(request.getInputStream(), LoginDto.class);
 
-            // 2. Create auth object (contains credentials) which will be used by auth manager
+            LoginDto credentials = new ObjectMapper()
+                    .readValue(request.getInputStream(), LoginDto.class);
+
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    creds.getUsername(), creds.getPassword(), Collections.emptyList());
+                    credentials.getUsername(), credentials.getPassword(), Collections.emptyList());
 
-            //authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            // 3. Authentication manager authenticate the user, and use UserDetialsServiceImpl::loadUserByUsername() method to load the user.
             return authManager.authenticate(authToken);
 
-        } catch (IOException e ) {
+        } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
-        }catch (UsernameNotFoundException exception){
-            throw new UsernameNotFoundException(" User name not found error");
+        } catch (UsernameNotFoundException exception) {
+            throw new UsernameNotFoundException("Username not found");
         }
     }
 
-
-
-    // Upon successful authentication, generate a token.
-    // The 'auth' passed to successfulAuthentication() is the current authenticated user.
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-                                            Authentication auth) throws IOException, ServletException {
+    protected void successfulAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain chain,
+            Authentication auth) throws IOException, ServletException {
 
         long now = System.currentTimeMillis();
         String token = Jwts.builder()
                 .setSubject(auth.getName())
-                // Convert to list of strings.
-                // This is important because it affects the way we get them back in the Gateway.
                 .claim("authorities", auth.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList()))
                 .setIssuedAt(new Date(now))
-                .setExpiration(new Date(now + jwtConfig.getExpiration() * 1000L))  // in milliseconds
-                .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret().getBytes())
+                .setExpiration(new Date(now + jwtConfig.getExpiration() * 1000L))
+                .signWith(
+                        SignatureAlgorithm.HS512,
+                        jwtConfig.getSecret().getBytes())
                 .compact();
 
-        // Add token to header
         response.addHeader(jwtConfig.getHeader(), jwtConfig.getPrefix() + token);
     }
 
-    // here we pass in userDetails and it calls the doGenerateToken to build the JWT
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) { // this will create token
-        // claims is what will be in the payload
-        // calling from the jwt library , Subject is the person being authenticated, we are passing the username as the subject
+    private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims).setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration()*1000L)).signWith(SignatureAlgorithm.HS256, jwtConfig.getSecret().getBytes()).compact();
+                .setExpiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration() * 1000L))
+                .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecret().getBytes()).compact();
     }
 
 }

@@ -3,16 +3,16 @@ package edu.hahu.user.exception;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValidationErrorDTO {
+public class ValidationErrorDto {
     private String errorType;
-    private List<FieldErrorDTO> fieldErrors = new ArrayList<>();
+    private List<FieldErrorDto> fieldErrors = new ArrayList<>();
 
-    public ValidationErrorDTO(String errorType) {
+    public ValidationErrorDto(String errorType) {
         this.errorType = errorType;
     }
 
     public void addFieldError(String path, String message) {
-        FieldErrorDTO error = new FieldErrorDTO(path, message);
+        FieldErrorDto error = new FieldErrorDto(path, message);
         fieldErrors.add(error);
     }
 
@@ -24,11 +24,11 @@ public class ValidationErrorDTO {
         this.errorType = errorType;
     }
 
-    public List<FieldErrorDTO> getFieldErrors() {
+    public List<FieldErrorDto> getFieldErrors() {
         return fieldErrors;
     }
 
-    public void setFieldErrors(List<FieldErrorDTO> fieldErrors) {
+    public void setFieldErrors(List<FieldErrorDto> fieldErrors) {
         this.fieldErrors = fieldErrors;
     }
 }

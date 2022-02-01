@@ -1,7 +1,6 @@
 package edu.el.content.service;
 
 import edu.el.content.dao.CourseDao;
-import edu.el.content.dto.ContentDto;
 import edu.el.content.model.Content;
 import edu.el.content.model.Course;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +53,9 @@ public class CourseService implements ICourse {
         Optional<Course> course = courseDao.findById(id);
         if (course.isEmpty()) return Optional.empty();
 
-        return course.get().getContents().stream().filter(content -> content.getId() == contentId).findFirst();
+        return course.get().getContents()
+                .stream().filter(content -> content.getId() == contentId)
+                .findFirst();
     }
 
     @Override
@@ -70,8 +71,13 @@ public class CourseService implements ICourse {
         Optional<Course> course = courseDao.findById(id);
         if (course.isEmpty()) return Optional.empty();
 
-        Optional<Content> contentToDelete = course.get().getContents().stream().filter(content -> Objects.equals(content.getId(), contentId)).findFirst();
+        Optional<Content> contentToDelete = course
+                .get().getContents()
+                .stream()
+                .filter(content -> Objects.equals(content.getId(), contentId))
+                .findFirst();
         course.get().getContents().remove(contentToDelete.get());
+
         return contentToDelete;
     }
 

@@ -26,33 +26,33 @@ public class EnrollmentController {
 
 
     @GetMapping
-    public List<Enrollment> getAll(){
+    public List<Enrollment> getAll() {
         return enrollmentService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Enrollment getById(@PathVariable Long id){
+    public Enrollment getById(@PathVariable Long id) {
         return enrollmentService.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Enrollment> save(@RequestBody @Valid Enrollment enrollment){
+    public ResponseEntity<Enrollment> save(@RequestBody @Valid Enrollment enrollment) {
         UserMoreDetails user = (UserMoreDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         enrollment.setTraineeId(user.getId());
         Optional<Enrollment> result = enrollmentService.save(enrollment);
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(result.get());
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody @Valid Enrollment enrollment){
+    public void update(@PathVariable Long id, @RequestBody @Valid Enrollment enrollment) {
         enrollmentService.update(enrollment);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id){
+    public void deleteById(@PathVariable Long id) {
         enrollmentService.deleteById(id);
     }
 
@@ -66,13 +66,13 @@ public class EnrollmentController {
 
     /****** Progresss ***/
     @GetMapping("/{id}/progress")
-     public List<Progress> findAll(){
+    public List<Progress> findAll() {
         return progressService.findAll();
     }
 
 
     @GetMapping("/{id}/progress/{progressId}")
-    public Progress findById(@PathVariable Long progressId){
+    public Progress findById(@PathVariable Long progressId) {
         return progressService.findById(progressId);
     }
 
@@ -84,14 +84,14 @@ public class EnrollmentController {
     }
 
     @PutMapping("/{id}/progress/{progressId}")
-    public void update(@PathVariable Long id, @PathVariable Long progressId, @RequestBody @Valid Progress progress){
+    public void update(@PathVariable Long id, @PathVariable Long progressId, @RequestBody @Valid Progress progress) {
         Enrollment enrollment = enrollmentService.findById(id);
         progress.setEnrollment(enrollment);
         progressService.update(progress);
     }
 
     @DeleteMapping("/{id}/progress/{progressId}")
-    public void deleteProgressById(@PathVariable Long progressId){
+    public void deleteProgressById(@PathVariable Long progressId) {
         progressService.deleteById(progressId);
     }
 

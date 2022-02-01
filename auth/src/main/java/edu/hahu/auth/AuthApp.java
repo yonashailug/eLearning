@@ -17,8 +17,8 @@ public class AuthApp {
     }
 
     @Bean
-    public JwtConfig jwtConfig(){
-        return  new JwtConfig();
+    public JwtConfig jwtConfig() {
+        return new JwtConfig();
     }
 
     @Bean
@@ -28,7 +28,7 @@ public class AuthApp {
 
     @Bean
     @LoadBalanced
-    public RestTemplate restTemplate(){
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 }

@@ -22,25 +22,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-         return fromDTO(username);
-       // return getDummyUsername(username);
+        return fromDTO(username);
     }
 
-    public UserDetails fromDTO(String username){
+    public UserDetails fromDTO(String username) {
 
         String url = "http://user-service/username";
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
                 .queryParam("username", username);
 
-        ResponseEntity<User> response =  restTemplate.exchange(builder.toUriString(), HttpMethod.POST,null, User.class);
+        ResponseEntity<User> response = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, null, User.class);
         User user = response.getBody();
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("Username: " + username + " not found");
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority( "ROLE_" + user.getRole()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
         return new UserMoreDetails(
                 user.getId(),
                 user.getUsername(),

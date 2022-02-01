@@ -19,22 +19,21 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .exceptionHandling()
-            .authenticationEntryPoint(
-                    (req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-            .and()
-            .addFilterAfter(
-                    new JwtTokenAuthenticationFilter(jwtConfig),
-                    UsernamePasswordAuthenticationFilter.class)
-            .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-            .antMatchers("/api/users/**").hasRole("ADMIN")
-            .antMatchers("/api/users/**").hasRole("ADMIN")
-            .anyRequest().authenticated();
+                .csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(
+                        (req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                .and()
+                .addFilterAfter(
+                        new JwtTokenAuthenticationFilter(jwtConfig),
+                        UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                .antMatchers("/api/users/**").hasRole("ADMIN")
+                .anyRequest().authenticated();
     }
 
 }

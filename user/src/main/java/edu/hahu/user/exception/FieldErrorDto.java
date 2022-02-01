@@ -1,10 +1,10 @@
 package edu.hahu.user.exception;
 
-public class FieldErrorDTO {
+public class FieldErrorDto {
     private String field;
     private String message;
 
-    public FieldErrorDTO(String field, String message) {
+    public FieldErrorDto(String field, String message) {
         this.field = field;
         this.message = message;
     }

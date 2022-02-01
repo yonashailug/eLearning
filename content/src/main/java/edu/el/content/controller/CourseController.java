@@ -4,13 +4,10 @@ import edu.el.content.model.Content;
 import edu.el.content.model.Course;
 import edu.el.content.service.CourseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +25,7 @@ public class CourseController {
     }
 
     @PostMapping
-    public void save(@RequestBody Course course , @RequestHeader("userId") Integer auth) {
+    public void save(@RequestBody Course course) {
         courseService.add(course);
     }
 

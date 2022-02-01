@@ -26,7 +26,7 @@ public class ErrorHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ValidationErrorDTO processValidationError(MethodArgumentNotValidException e) {
+    public ValidationErrorDto processValidationError(MethodArgumentNotValidException e) {
         BindingResult result = e.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
         return processFieldErrors(fieldErrors);
@@ -36,17 +36,19 @@ public class ErrorHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public NotFoundDTO processNotFoundError(NotFoundException e) {
-        NotFoundDTO dto = new NotFoundDTO();
+    public NotFoundDto processNotFoundError(NotFoundException e) {
+        NotFoundDto dto = new NotFoundDto();
         dto.setMessage(e.getMessage());
         dto.setName("id");
         return dto;
     }
 
-    private ValidationErrorDTO processFieldErrors(List<FieldError> fieldErrors) {
-        ValidationErrorDTO dto = new ValidationErrorDTO("ValidationError");
+    private ValidationErrorDto processFieldErrors(List<FieldError> fieldErrors) {
+        ValidationErrorDto dto = new ValidationErrorDto("ValidationError");
         for (FieldError fieldError : fieldErrors) {
-            dto.addFieldError(fieldError.getField(), messageSourceAccessor.getMessage(fieldError));
+            dto.addFieldError(
+                    fieldError.getField(),
+                    messageSourceAccessor.getMessage(fieldError));
         }
         return dto;
     }

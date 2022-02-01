@@ -19,12 +19,12 @@ public class GenericMapper<T, E> {
 
     public List<E> mapList(List<T> list, Class<E> convertTo) {
         return list.stream()
-                .map( item -> modelMapper.map(item, convertTo))
+                .map(item -> modelMapper.map(item, convertTo))
                 .collect(Collectors.toList());
 
     }
 
-    public  E mapObject(T source , Class<E> target) {
+    public E mapObject(T source, Class<E> target) {
         return modelMapper.map(source, target);
     }
 }
