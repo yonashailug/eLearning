@@ -38,7 +38,7 @@ public class UserMoreDetails implements UserDetails {
 
     public static UserMoreDetails build(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority( "ROLE_" + user.getRole()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
         return new UserMoreDetails(
                 user.getId(),
                 user.getUsername(),

@@ -75,7 +75,8 @@ public class UserService implements IUser {
                 .exchange(path,
                         HttpMethod.GET,
                         null,
-                        new ParameterizedTypeReference<>() {});
+                        new ParameterizedTypeReference<>() {
+                        });
         return response.getBody();
     }
 

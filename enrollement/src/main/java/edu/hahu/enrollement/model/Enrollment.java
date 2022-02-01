@@ -20,7 +20,8 @@ public class Enrollment {
     @Positive
     private Long traineeId;
 
-    public Enrollment() {}
+    public Enrollment() {
+    }
 
     public Enrollment(Long courseId, Long traineeId) {
         this.courseId = courseId;

@@ -28,7 +28,6 @@ public class ContentService implements IContent {
     @Override
     public Content get(long id) {
         return contentDao.getById(id);
-
     }
 
     @Override
