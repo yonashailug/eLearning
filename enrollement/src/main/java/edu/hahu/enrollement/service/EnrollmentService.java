@@ -3,18 +3,20 @@ package edu.hahu.enrollement.service;
 import edu.hahu.enrollement.dao.EnrollmentDao;
 import edu.hahu.enrollement.model.Enrollment;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class EnrollmentService implements  IEnrollmentService {
 
     private final Environment env;
@@ -32,8 +34,14 @@ public class EnrollmentService implements  IEnrollmentService {
     }
 
     @Override
-    public Enrollment save(Enrollment enrollment) {
-         return enrollmentDao.save(enrollment);
+    public Optional<Enrollment> save(Enrollment enrollment) {
+
+        if(!checkCourseExists(enrollment.getCourseId())){
+            return Optional.empty();
+        }
+
+        Enrollment enrollment1 = enrollmentDao.save(enrollment);
+        return Optional.of(enrollment1);
     }
 
     @Override
@@ -55,5 +63,13 @@ public class EnrollmentService implements  IEnrollmentService {
                         null,
                         new ParameterizedTypeReference<>() {});
         return response.getBody();
+    }
+
+    public Boolean checkCourseExists(Long id){
+        String path = env.getProperty("course.service.location") + "/" + id;
+        ResponseEntity<Object> response = restTemplate.exchange(path, HttpMethod.GET,
+                null, new ParameterizedTypeReference<Object>() {});
+        return response.getBody() != null;
+
     }
 }
