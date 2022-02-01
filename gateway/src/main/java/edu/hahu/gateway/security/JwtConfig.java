@@ -22,7 +22,6 @@ public class JwtConfig {
     @Value("${security.jwt.secret:secretsdfgdsfsdfgdfgsdfgdsfmiuisagoodpalcetolearnffasidjfsdkfjasdf}")
     private String secret;
 
-    // In case you want to use plain getters instead of lombok.
     public String getUri() {
         return Uri;
     }
