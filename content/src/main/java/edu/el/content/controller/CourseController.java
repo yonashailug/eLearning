@@ -29,8 +29,6 @@ public class CourseController {
 
     @PostMapping
     public void save(@RequestBody Course course , @RequestHeader("userId") Integer auth) {
-        System.out.println("!~~~~~~~~~~~ Request Header Auth : " + auth +"~~~~~~~");
-
         courseService.add(course);
     }
 

@@ -28,11 +28,10 @@ public class User {
     @NotBlank
     private String username;
 
-    //@NotBlank
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
 
     private String avatar;
     private boolean emailVerified = false;
