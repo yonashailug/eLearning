@@ -30,10 +30,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-         return fromDTO(username);
+         return fromDAO(username);
+       // return getDummyUsername(username);
     }
 
-    public UserDetails fromDTO(String username){
+    public UserDetails fromDAO(String username){
 
         String url = "http://user-service/username";
 
@@ -41,12 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .fromUriString(url)
                 .queryParam("username", username);
 
-        ResponseEntity<UserDto> response =  restTemplate
-                .exchange(
-                        builder.toUriString(),
-                        HttpMethod.POST,null,
-                        UserDto.class);
-
+        ResponseEntity<UserDto> response =  restTemplate.exchange(builder.toUriString(), HttpMethod.POST,null, UserDto.class);
         UserDto user = response.getBody();
         if(user == null){
             throw new UsernameNotFoundException("Username: " + username + " not found");
@@ -54,13 +50,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority( "ROLE_" + user.getRole()));
-        return new UserMoreDetails(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.isEnabled(),
-                user.getPassword(),
-                authorities
-        );
+        return new UserMoreDetails(user.getId(), user.getUsername(), user.getEmail(), user.isEnabled(), user.getPassword(), authorities);
     }
+//    public UserDetails getDummyUsername(String username){
+//
+//        final List<edu.hahu.auth.dto.User> users = Arrays.asList(
+//                new edu.hahu.auth.dto.User(1L, "user", "u@gmail.com", encoder.encode("user"), "USER"),
+//                new edu.hahu.auth.dto.User(2L, "admin", "a@gmail.com", encoder.encode("admin"), "ADMIN")
+//        );
+//
+//        for(edu.hahu.auth.dto.User appUser: users) {
+//            if(appUser.getUsername().equals(username)) {
+//
+//                List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+//                        .commaSeparatedStringToAuthorityList("ROLE_" + appUser.getRole());
+//
+//                return new User(appUser.getUsername(), appUser.getPassword(), grantedAuthorities);
+//            }
+//        }
+//
+//        throw new UsernameNotFoundException("Username: " + username + " not found");
+//    }
 }
