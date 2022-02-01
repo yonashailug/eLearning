@@ -1,5 +1,6 @@
 package edu.hahu.auth;
 
+import com.netflix.discovery.converters.Auto;
 import edu.hahu.auth.dto.UserDto;
 import edu.hahu.auth.security.UserMoreDetails;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final BCryptPasswordEncoder encoder;
+    
+    @Autowired
     private final RestTemplate restTemplate;
 
     @Override
@@ -52,23 +54,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority( "ROLE_" + user.getRole()));
         return new UserMoreDetails(user.getId(), user.getUsername(), user.getEmail(), user.isEnabled(), user.getPassword(), authorities);
     }
-//    public UserDetails getDummyUsername(String username){
-//
-//        final List<edu.hahu.auth.dto.User> users = Arrays.asList(
-//                new edu.hahu.auth.dto.User(1L, "user", "u@gmail.com", encoder.encode("user"), "USER"),
-//                new edu.hahu.auth.dto.User(2L, "admin", "a@gmail.com", encoder.encode("admin"), "ADMIN")
-//        );
-//
-//        for(edu.hahu.auth.dto.User appUser: users) {
-//            if(appUser.getUsername().equals(username)) {
-//
-//                List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-//                        .commaSeparatedStringToAuthorityList("ROLE_" + appUser.getRole());
-//
-//                return new User(appUser.getUsername(), appUser.getPassword(), grantedAuthorities);
-//            }
-//        }
-//
-//        throw new UsernameNotFoundException("Username: " + username + " not found");
-//    }
 }
