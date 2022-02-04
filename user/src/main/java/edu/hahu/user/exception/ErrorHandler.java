@@ -15,7 +15,6 @@ import java.util.List;
 
 @ControllerAdvice
 public class ErrorHandler {
-
     MessageSourceAccessor messageSourceAccessor;
 
     @Autowired

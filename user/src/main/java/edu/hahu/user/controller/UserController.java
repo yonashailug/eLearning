@@ -34,21 +34,13 @@ public class UserController {
     }
 
     @PostMapping
-    private ResponseEntity<UserDto> save(@Valid @RequestBody User user, BindingResult result) {
-        if (result.hasErrors()) {
-            return ResponseEntity.badRequest().build();
-        }
-
+    private ResponseEntity<UserDto> save(@Valid @RequestBody User user) {
         Optional<UserDto> savedUser = userService.save(user);
         return ResponseEntity.of(savedUser);
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<UserDto> update(@Valid @RequestBody User user, BindingResult result) {
-        if (result.hasErrors()) {
-            return ResponseEntity.badRequest().build();
-        }
-
+    private ResponseEntity<UserDto> update(@Valid @RequestBody User user) {
         Optional<UserDto> updatedUser = userService.update(user);
         return ResponseEntity.of(updatedUser);
     }
