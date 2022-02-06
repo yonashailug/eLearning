@@ -1,7 +1,7 @@
-# Mini Webstore project backend
+# eLearning project backend
 
 This project was done as part of our Enterprise Application (EA) course project in Maharishi International University
-A Microservice based e-Learning application developed with Spring Boot.
+A Microservice based e-Learning application developed with Spring Boot, Eureka and Zuul.
 
 ## Setup
 
